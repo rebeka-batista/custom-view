@@ -24,23 +24,6 @@ class ProgressButton @JvmOverloads constructor(
             refreshState()
         }
 
-    private fun refreshState() {
-        isEnabled = state.isEnabled
-        isClickable = state.isEnabled
-        refreshDrawableState()
-
-        binding.textTitle.run {
-            isEnabled = state.isEnabled
-            isClickable = state.isEnabled
-        }
-
-        binding.progressButton.visibility = state.progressVisibility
-        when (state) {
-            ProgressButtonState.Normal -> binding.textTitle.text = title
-            ProgressButtonState.Loading -> binding.textTitle.text = loadingTitle
-        }
-    }
-
     init {
         setLayout(attrs)
         refreshState()
@@ -71,6 +54,31 @@ class ProgressButton @JvmOverloads constructor(
             }
             attributes.recycle()
         }
+    }
+
+    private fun refreshState() {
+        isEnabled = state.isEnabled
+        isClickable = state.isEnabled
+        refreshDrawableState()
+
+        binding.textTitle.run {
+            isEnabled = state.isEnabled
+            isClickable = state.isEnabled
+        }
+
+        binding.progressButton.visibility = state.progressVisibility
+        when (state) {
+            ProgressButtonState.Normal -> binding.textTitle.text = title
+            ProgressButtonState.Loading -> binding.textTitle.text = loadingTitle
+        }
+    }
+
+    fun setLoading() {
+        state = ProgressButtonState.Loading
+    }
+
+    fun setNormal() {
+        state = ProgressButtonState.Normal
     }
 
     sealed class ProgressButtonState(val isEnabled: Boolean, val progressVisibility: Int) {
