@@ -18,11 +18,37 @@ class ProgressButton @JvmOverloads constructor(
     private val binding = ProgressButtonBinding.inflate(LayoutInflater.from(context), this, true)
 
     init {
-
+        setLayout(attrs)
     }
 
     private fun setLayout(attrs: AttributeSet?) {
+        attrs?.let { attributeSet ->
+            val attributes = context.obtainStyledAttributes(
+                attributeSet,
+                R.styleable.ProgressButton
+            )
+            setBackgroundResource(R.drawable.progress_button_background)
 
+            val titleResId =
+                attributes.getResourceId(R.styleable.ProgressButton_progress_button_title, 0)
+
+            if (titleResId != 0) {
+                title = context.getString(titleResId)
+            }
+
+            val loadingTitleResId =
+                attributes.getResourceId(
+                    R.styleable.ProgressButton_progress_button_loading_title,
+                    0
+                )
+            if (loadingTitleResId != 0) {
+                loadingTitle = context.getString(loadingTitleResId)
+            }
+
+
+
+            attributes.recycle()
+        }
     }
 
 }
